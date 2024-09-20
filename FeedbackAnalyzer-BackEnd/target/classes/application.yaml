@@ -1,0 +1,36 @@
+spring:
+  application:
+    name: AAT
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost/big_event?sessionVariables=sql_mode='NO_ENGINE_SUBSTITUTION'&jdbcCompliantTruncation=false
+    username: root
+    password: 123456
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 100MB
+
+
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+
+openai:
+  api:
+    url: https://api.openai.com/v1/chat/completions
+    key: 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
+
+Elasticsearch:
+  api:
+    url: https://fd5cf5dfbd2a45c6acd599245bfb5c71.es.us-west-2.aws.elastic.cloud:443
+    key: NjlOSGU1RUJHZzBYVjJZa1NpREU6SWdyTG5FT2dUR3VpU3ByMFpoNzZPQQ==
+
+
+
+
+
+
+
+

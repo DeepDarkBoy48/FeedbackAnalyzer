@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chenyangxu.FeedbackAnalyzer.mapper.AnalyzeMapper">
+
+    <insert id="insertCourseItems">
+        insert into courseitem (course_id,title,prompt,chart) values
+        <foreach collection="courseItems" item="item" separator=",">
+            (#{item.courseId},#{item.title},#{item.prompt},#{item.chart})
+        </foreach>
+    </insert>
+    <insert id="insertFeedback">
+        INSERT INTO feedback (feedback_type, courseitemid, feedback)
+        VALUES
+        <foreach collection="feedbacks" item="feedback" separator=",">
+            (#{feedback.feedbackType}, #{feedback.courseitemid}, #{feedback.feedback})
+        </foreach>
+    </insert>
+    <update id="updateCoursxeItem">
+        UPDATE courseitem
+        <set>
+            <if test="positive != null">positive = #{positive},</if>
+            <if test="somewhatpositive != null">somewhatpositive = #{somewhatpositive},</if>
+            <if test="neutral != null">neutral = #{neutral},</if>
+            <if test="somewhatnegative != null">somewhatnegative = #{somewhatnegative},</if>
+            <if test="negative != null">negative = #{negative},</if>
+            <if test="good != null">good = #{good},</if>
+            <if test="bad != null">bad = #{bad},</if>
+            <if test="normal != null">normal = #{normal},</if>
+            <if test="airesult != null">airesult = #{airesult},</if>
+
+        </set>
+        WHERE id = #{id}
+    </update>
+    <update id="updateCourse">
+        UPDATE course
+        <set>
+            <if test="airesult != null">airesult = #{airesult},</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <select id="getAiResultFromCourseItemid" resultType="java.util.Map">
+        SELECT title, airesult
+        FROM courseitem
+        WHERE course_id = #{courseid}
+        <if test="courseItmeNames != null and !courseItmeNames.isEmpty()">
+            AND title IN
+            <foreach item="name" collection="courseItmeNames" open="(" separator="," close=")">
+                #{name}
+            </foreach>
+        </if>
+    </select>
+</mapper>
